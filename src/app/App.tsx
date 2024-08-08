@@ -1,9 +1,9 @@
-import UserList from '../shared/components/list'
+import UserTable from '@/widgets/UserTable/UserTable'
 
 const App = () => {
 	return (
-		<div>
-			<UserList />
+		<div className='w-full max-w-[1600px] mx-auto'>
+			<UserTable />
 		</div>
 	)
 }
