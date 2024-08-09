@@ -1,4 +1,4 @@
-import UserTable from '@/widgets/UserTable/UserTable'
+import UserTable from '@/widgets/Tables/UserTable/UserTable'
 
 const App = () => {
 	return (

@@ -11,24 +11,20 @@ import {
 	DropdownMenuTrigger,
 } from '@/shared/components/ui/dropdown-menu'
 import { FC } from 'react'
+import { useDeleteUserMutation } from '@/entities/User/api/usersApi'
 
 interface UserTableActionsProps {
 	row: Row<User>
-	deleteUser?: (userId: number) => void
 }
 
-const UserTableActions: FC<UserTableActionsProps> = ({ row, deleteUser }) => {
+const UserTableActions: FC<UserTableActionsProps> = ({ row }) => {
 	const { original: user } = row
 
 	const handleCopyUserId = () => {
 		navigator.clipboard.writeText(user.id.toString())
 	}
 
-	const handleDeleteUser = () => {
-		if (deleteUser) {
-			deleteUser(user.id)
-		}
-	}
+	const [deleteUser] = useDeleteUserMutation()
 
 	return (
 		<DropdownMenu>
@@ -43,7 +39,7 @@ const UserTableActions: FC<UserTableActionsProps> = ({ row, deleteUser }) => {
 				<DropdownMenuItem onClick={handleCopyUserId}>Copy user ID</DropdownMenuItem>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem>Edit user</DropdownMenuItem>
-				<DropdownMenuItem className='text-red-600' onClick={handleDeleteUser}>
+				<DropdownMenuItem className='text-red-600' onClick={() => deleteUser(user.id)}>
 					Delete user
 				</DropdownMenuItem>
 			</DropdownMenuContent>

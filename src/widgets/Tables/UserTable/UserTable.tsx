@@ -1,18 +1,17 @@
 import { flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
 import { Table, TableBody, TableCell, TableRow } from '@/shared/components/ui/table'
-import { useDeleteUserMutation, useGetUsersQuery } from '@/entities/User/api/usersApi'
+import { useGetUsersQuery } from '@/entities/User/api/usersApi'
 import { columns } from './Columns'
 import UserTableHeader from './UserTableHeader'
 import UserTableDropdownMenu from './UserTableDropdownMenu'
-import AddUserModal from '../AddUserModal/AddUserModal'
+import AddUserModal from '@/widgets/Modals/AddUserModal/AddUserModal'
 
 const UserTable = () => {
 	const { data: users = [], error, isLoading } = useGetUsersQuery()
-	const [deleteUser] = useDeleteUserMutation()
 
 	const table = useReactTable({
 		data: users,
-		columns: columns(deleteUser),
+		columns: columns(),
 		getCoreRowModel: getCoreRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 	})

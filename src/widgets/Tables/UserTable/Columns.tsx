@@ -6,7 +6,7 @@ import UserTableActions from './UserTableActions'
 
 const buttonStyleReset = { padding: 0, background: 'none' }
 
-export const columns = (deleteUser: (userId: number) => void): ColumnDef<User>[] => [
+export const columns = (): ColumnDef<User>[] => [
 	{
 		accessorKey: 'id',
 		header: 'ID',
@@ -50,6 +50,6 @@ export const columns = (deleteUser: (userId: number) => void): ColumnDef<User>[]
 	{
 		id: 'actions',
 		enableHiding: false,
-		cell: ({ row }) => <UserTableActions deleteUser={deleteUser} row={row} />,
+		cell: ({ row }) => <UserTableActions row={row} />,
 	},
 ]
