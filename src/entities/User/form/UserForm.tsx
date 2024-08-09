@@ -42,7 +42,7 @@ const UserForm: FC<UserFormProps> = ({ defaultValues, onSubmit, isLoading = fals
 		reset()
 	}
 
-	const handleDeleteClick = async () => {
+	const handleDelete = async () => {
 		if (deleteUser) {
 			await deleteUser()
 		}
@@ -89,7 +89,7 @@ const UserForm: FC<UserFormProps> = ({ defaultValues, onSubmit, isLoading = fals
 					{submitButtonText}
 				</Button>
 				{deleteUserBtn && (
-					<Button type='button' variant='destructive' onClick={handleDeleteClick}>
+					<Button type='button' variant='destructive' onClick={handleDelete}>
 						Delete User
 					</Button>
 				)}

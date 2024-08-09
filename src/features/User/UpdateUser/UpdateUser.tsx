@@ -2,6 +2,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useDeleteUserMutation, useGetUserByIdQuery, useUpdateUserMutation } from '@/entities/User/api/usersApi'
 import UserForm from '@/entities/User/form/UserForm'
 import { FormInputs } from '@/entities/User/model/schema'
+import { useState } from 'react'
+import DeleteUserModal from '@/widgets/Modals/DeleteUserModal/DeleteUserModal'
 
 const UpdateUser = () => {
 	const { id } = useParams<{ id: string }>()
@@ -9,6 +11,7 @@ const UpdateUser = () => {
 	const [updateUser] = useUpdateUserMutation()
 	const [deleteUser] = useDeleteUserMutation()
 	const navigate = useNavigate()
+	const [isModalOpen, setIsModalOpen] = useState(false)
 
 	const onSubmit = async (data: FormInputs) => {
 		try {
@@ -23,7 +26,7 @@ const UpdateUser = () => {
 	const handleDelete = async () => {
 		try {
 			await deleteUser(Number(id)).unwrap()
-			alert('User deleted successfully')
+			setIsModalOpen(false)
 			navigate('/')
 		} catch (error) {
 			alert('Failed to delete user: ' + error)
@@ -33,21 +36,25 @@ const UpdateUser = () => {
 	if (isLoading) return <div>Loading...</div>
 
 	return (
-		<UserForm
-			defaultValues={
-				user || {
-					firstName: '',
-					lastName: '',
-					email: '',
-					skills: [''],
+		<>
+			<UserForm
+				defaultValues={
+					user || {
+						firstName: '',
+						lastName: '',
+						email: '',
+						skills: [''],
+					}
 				}
-			}
-			onSubmit={onSubmit}
-			isLoading={isLoading}
-			submitButtonText='Save Changes'
-			deleteUserBtn
-			deleteUser={handleDelete}
-		/>
+				onSubmit={onSubmit}
+				isLoading={isLoading}
+				submitButtonText='Save Changes'
+				deleteUserBtn
+				deleteUser={() => setIsModalOpen(true)} // Open the modal
+			/>
+
+			<DeleteUserModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onConfirm={handleDelete} />
+		</>
 	)
 }
 
