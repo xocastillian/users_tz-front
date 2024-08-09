@@ -14,7 +14,7 @@ const AddUserModal: FC = () => {
 					<DialogHeader>
 						<DialogTitle>Add User</DialogTitle>
 					</DialogHeader>
-					<AddUser />
+					<AddUser  />
 				</DialogContent>
 			</Dialog>
 		</div>

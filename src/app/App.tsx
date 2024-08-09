@@ -1,11 +1,7 @@
-import UserTable from '@/widgets/Tables/UserTable/UserTable'
+import HomePage from '@/pages/HomePage'
 
 const App = () => {
-	return (
-		<div className='w-full max-w-[1600px] mx-auto'>
-			<UserTable />
-		</div>
-	)
+	return <HomePage />
 }
 
 export default App
