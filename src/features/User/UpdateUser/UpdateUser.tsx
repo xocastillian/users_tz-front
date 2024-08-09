@@ -1,23 +1,32 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { useGetUserByIdQuery, useUpdateUserMutation } from '@/entities/User/api/usersApi'
+import { useDeleteUserMutation, useGetUserByIdQuery, useUpdateUserMutation } from '@/entities/User/api/usersApi'
 import UserForm from '@/entities/User/form/UserForm'
 import { FormInputs } from '@/entities/User/model/schema'
 
 const UpdateUser = () => {
 	const { id } = useParams<{ id: string }>()
-	const { data: user, isLoading, refetch } = useGetUserByIdQuery(Number(id))
+	const { data: user, isLoading } = useGetUserByIdQuery(Number(id))
 	const [updateUser] = useUpdateUserMutation()
+	const [deleteUser] = useDeleteUserMutation()
 	const navigate = useNavigate()
 
 	const onSubmit = async (data: FormInputs) => {
 		try {
 			await updateUser({ id: Number(id), updates: data }).unwrap()
-			refetch()
-
 			alert('User updated successfully')
 			navigate('/')
 		} catch (error) {
 			alert('Failed to update user: ' + error)
+		}
+	}
+
+	const handleDelete = async () => {
+		try {
+			await deleteUser(Number(id)).unwrap()
+			alert('User deleted successfully')
+			navigate('/')
+		} catch (error) {
+			alert('Failed to delete user: ' + error)
 		}
 	}
 
@@ -36,6 +45,8 @@ const UpdateUser = () => {
 			onSubmit={onSubmit}
 			isLoading={isLoading}
 			submitButtonText='Save Changes'
+			deleteUserBtn
+			deleteUser={handleDelete}
 		/>
 	)
 }

@@ -11,9 +11,11 @@ interface UserFormProps {
 	onSubmit: (data: FormInputs) => void
 	isLoading?: boolean
 	submitButtonText?: string
+	deleteUserBtn?: boolean
+	deleteUser?: () => void
 }
 
-const UserForm: FC<UserFormProps> = ({ defaultValues, onSubmit, isLoading = false, submitButtonText = 'Save' }) => {
+const UserForm: FC<UserFormProps> = ({ defaultValues, onSubmit, isLoading = false, submitButtonText = 'Save', deleteUserBtn, deleteUser }) => {
 	const {
 		register,
 		handleSubmit,
@@ -38,6 +40,12 @@ const UserForm: FC<UserFormProps> = ({ defaultValues, onSubmit, isLoading = fals
 	const handleFormSubmit = async (data: FormInputs) => {
 		await onSubmit(data)
 		reset()
+	}
+
+	const handleDeleteClick = async () => {
+		if (deleteUser) {
+			await deleteUser()
+		}
 	}
 
 	return (
@@ -76,9 +84,16 @@ const UserForm: FC<UserFormProps> = ({ defaultValues, onSubmit, isLoading = fals
 					{errors.skills && <p className='text-red-500'>{errors.skills.message}</p>}
 				</div>
 			</div>
-			<Button type='submit' disabled={isLoading}>
-				{submitButtonText}
-			</Button>
+			<div className='flex gap-4'>
+				<Button type='submit' disabled={isLoading}>
+					{submitButtonText}
+				</Button>
+				{deleteUserBtn && (
+					<Button type='button' variant='destructive' onClick={handleDeleteClick}>
+						Delete User
+					</Button>
+				)}
+			</div>
 		</form>
 	)
 }
